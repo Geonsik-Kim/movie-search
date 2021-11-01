@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import Nav from "./components/Nav";
+import Search from "./components/Search";
+import List from "./components/List";
+import axios from "axios";
+import { useState, useCallback } from "react";
 
-function App() {
+const App = () => {
+  const [movieItem, setMovieItem] = useState([]);
+
+  const onInsert = useCallback(async (movieName) => {
+    try {
+      let res = await axios.get(
+        `http://localhost:3001/search/movie?query=${movieName}`
+      );
+      setMovieItem((movieItem) => res.data.items); // 받은 데이터로 최신 상태 변경
+    } catch (e) {
+      console.log("error => " + e);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Nav />
+      <Search onInsert={onInsert} />
+      <List movieItem={movieItem} />
+    </>
   );
-}
+};
 
 export default App;
