@@ -32,7 +32,7 @@ const ListItem = ({ link, title, image, pubDate }) => {
   return (
     <Item>
       <a href={link} target="_blank" rel="noopener noreferrer">
-        <div class="imgWrap">
+        <div className="imgWrap">
           <img src={image} alt={`${title} 포스터`} />
         </div>
         <strong>{title}</strong>
